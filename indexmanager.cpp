@@ -11,6 +11,18 @@ BPHeader::BPHeader(const std::string& indexName) :indexName(indexName)
 
 	memcpy(&(this->type), blockData, sizeof(EleType));
 	memcpy(&(this->rootOffset), blockData + sizeof(EleType) / sizeof(unsigned char), sizeof(int));
+
+	bmWriteBlock(b);
+}
+
+BPHeader::BPHeader(const std::string& indexName, EleType type) :indexName(indexName), type(type), rootOffset(0) {
+	Block b = bmNewBlock(indexName);
+	unsigned char* blockData = b.data;
+
+	memcpy(&(this->type), blockData, sizeof(EleType));
+	memcpy(&(this->rootOffset), blockData + sizeof(EleType) / sizeof(unsigned char), sizeof(int));
+
+	bmWriteBlock(b);
 }
 
 BPHeader::~BPHeader()

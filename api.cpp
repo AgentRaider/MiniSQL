@@ -542,7 +542,7 @@ void Insert(const string& tableName, vector<element> entry)
 			}
 		}
 	}
-	cout << "Insert Succeed!" << endl;
+	//cout << "Insert Succeed!" << endl;
 	return;
 }
 

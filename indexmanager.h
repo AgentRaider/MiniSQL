@@ -53,7 +53,8 @@ public:
 
 private:
 	//Only when creating index
-	BPHeader(const std::string& indexName, EleType type) :indexName(indexName), type(type), rootOffset(0) {}
+	BPHeader(const std::string& indexName, EleType type);
+	
 };
 
 

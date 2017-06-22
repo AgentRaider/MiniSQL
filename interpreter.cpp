@@ -33,25 +33,33 @@ void InterpretQuery(string query)
 	}
 	for (int i = 0; i < query.length(); i++)
 	{
+		bool inStr = false;
 		if (query[i] == '(' || query[i] == ')' || query[i] == ',')
 		{
+			inStr = !inStr;
 			query.insert(i, " ");
 			query.insert(i + 2, " ");
 			i += 2;
 		}
-		else if ((query[i] == '>' && query[i + 1] != '=') || (query[i] == '<' && query[i + 1] != '=' && query[i + 1] != '>'))//  >  <
+		else if (query[i] == ',' && !inStr)
 		{
 			query.insert(i, " ");
 			query.insert(i + 2, " ");
 			i += 2;
 		}
-		else if ((query[i] == '>' && query[i + 1] == '=') || (query[i] == '<' && query[i + 1] == '=') || (query[i] == '<' && query[i + 1] == '>'))//  >=  <= <>
+		else if ((query[i] == '>' && query[i + 1] != '=' && !inStr) || (query[i] == '<' && query[i + 1] != '=' && query[i + 1] != '>' && !inStr))//  >  <
+		{
+			query.insert(i, " ");
+			query.insert(i + 2, " ");
+			i += 2;
+		}
+		else if ((query[i] == '>' && query[i + 1] == '=' && !inStr) || (query[i] == '<' && query[i + 1] == '=' && !inStr) || (query[i] == '<' && query[i + 1] == '>' && !inStr))//  >=  <= <>
 		{
 			query.insert(i, " ");
 			query.insert(i + 3, " ");
 			i += 3;
 		}
-		else if (query[i] == '=')
+		else if (query[i] == '=' && !inStr)
 		{
 			query.insert(i, " ");
 			query.insert(i + 2, " ");
@@ -245,6 +253,15 @@ void ProcessInsert(stringstream& querystream)
 	while (1) {
 		string Element;
 		querystream >> Element;
+		if (Element[0] == '\'')
+		{
+			string tmp;
+			while (Element[Element.length() - 1] != '\'')
+			{
+				querystream >> tmp;
+				Element += " " + tmp;
+			}
+		}
 		entry.push_back(ProcessElement(Element));
 		querystream >> temp;
 		if (temp == ")")
@@ -276,6 +293,16 @@ void ProcessDelete(stringstream& querystream)
 		string oper;
 		string data;
 		querystream >> itemname >> oper >> data;
+
+		if (data[0] == '\'')
+		{
+			string tmp;
+			while (data[data.length() - 1] != '\'')
+			{
+				querystream >> tmp;
+				data += " " + tmp;
+			}
+		}
 		int op;
 		cout << oper << endl;
 		if (oper == "<") {
@@ -351,6 +378,16 @@ void ProcessSelect(stringstream& querystream)
 		string oper;
 		string data;
 		querystream >> itemname >> oper >> data;
+		if (data[0] == '\'')
+		{
+			string tmp;
+			while (data[data.length() - 1] != '\'')
+			{
+				querystream >> tmp;
+				data += " " + tmp;
+			}
+		}
+
 		int op;
 		if (oper == "<") {
 			op = 0;

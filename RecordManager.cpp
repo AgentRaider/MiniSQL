@@ -345,7 +345,11 @@ void rmDeleteWithIndex(const string fileName, int offset, const Fitter &fitter, 
 							tablename.erase(tablename.end() - 1);
 						tablename.erase(tablename.end() - 1);
 						string btreename = tablename + "." + datatable.items[j].name + ".index";
-						assert(btFind(btreename, entry[j])!=-1);
+						if ((btFind(btreename, entry[j]) == -1))
+						{
+							btFind(btreename, entry[j]);
+							assert(false);
+						}
 						btDelete(btreename, entry[j]);
 					}
 				}
