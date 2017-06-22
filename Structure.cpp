@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstdio>
+#include <iostream>
 
 using namespace std;
 
@@ -89,8 +90,8 @@ element::element(string d):datas(d),type(2) {}
 element::element(const char *d):datas(d),type(2) {}
 void element::	 print() {
 	switch (type) {
-	case 0:printf("%d",datai); return;
-	case 1:printf("%f",dataf); return;
+	case 0:cout << datai; return;
+	case 1:cout << dataf; return;
 	case 2:printf("%s",datas.c_str()); return;
 	default: assert(false);
 	}
