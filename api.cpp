@@ -155,7 +155,7 @@ int Select(vector <string> SelectItem,const string &tableName, Fitter &fitter)
 
 	string dbname = tableName + ".db";
 	string temp;
-	int ind;
+	int ind = -1;
 
 	//检测fitter是否与相应属性类型匹配
 	for (int i = 0; i<fitter.rules.size(); i++) {
@@ -168,6 +168,10 @@ int Select(vector <string> SelectItem,const string &tableName, Fitter &fitter)
 				ind = i;
 				break;
 			}
+		}
+		if(ind < 0){
+			cout << "No such item!" << endl;
+			return 0;
 		}
 
 		if (nowtable.items[ind].type != rhs.type) {

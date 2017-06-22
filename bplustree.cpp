@@ -551,7 +551,7 @@ bool BPStrNode::InsertKey(unsigned int offset, const char * key)
 		BPStrNode *node = nullptr;
 		unsigned int i;
 
-		for (i = 0; i < this->fanOut; i++)
+		for (i = 0; i < this->fanOut - 1; i++)
 		{
 			if (strncmp(this->keys[i], key, length) > 0)  //this->keys[i] > key
 				break;
